@@ -15,6 +15,45 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Authentication Settings
+    |--------------------------------------------------------------------------
+    |
+    | Aqui você define qual "guard" e qual provedor de usuários será usado
+    | por padrão no seu sistema de autenticação.
+    |
+    */
+
+    'defaults' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Guards
+    |--------------------------------------------------------------------------
+    |
+    | Aqui definimos os "guards" de autenticação para cada contexto do app.
+    | O guard "web" usa sessão e cookies, o "api" usa tokens.
+    |
+    */
+
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -36,8 +36,9 @@ class MakeLoginRequest extends FormRequest
             'password' => ['required'],
         ];
     }
-
-
+/*
+    * Attempt Login tentar fazer Login no Sistema
+ */
     public function attempt(): bool 
     {
 

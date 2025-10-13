@@ -24,7 +24,7 @@ class LoginController extends Controller
             return to_route('dashboard');
         }
 
-            return back()->withErrors(['messagem' => 'não encontrado']);
+        return back()->with(['messagem' => 'não encontrado']);
      
     }
 }
