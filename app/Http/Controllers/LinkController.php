@@ -39,7 +39,7 @@ class LinkController extends Controller
      */
     public function edit(Link $link)
     {
-        //
+        return view('links.edit', compact('link'));
     }
 
     /**
@@ -47,7 +47,11 @@ class LinkController extends Controller
      */
     public function update(UpdateLinkRequest $request, Link $link)
     {
-        //
+        //dd($request->all(), $link);
+        $link->fill($request->validated())->save();
+
+
+        return to_route('dashboard')->with('message', 'Alterado com sucesso!');
     }
 
     /**
@@ -55,6 +59,50 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
-        //
+        $link->delete();
+        return to_route('dashboard')->with('message', 'Deletado com sucesso!');
+    }
+
+    public function up(Link $link)
+    {
+
+            $order = (int) $link->sort;
+            $newOrder = $order - 1;
+
+            /** @var User $user */
+            $user = auth()->user();
+
+            $swapWith = $user->links()->where('sort', $newOrder)->first();
+
+            // faz a troca
+            $currentSort = $link->sort;
+            $link->sort = $swapWith->sort;
+            $swapWith->sort = $currentSort;
+
+            $link->save();
+            $swapWith->save();
+
+            return back();
+    }
+
+    public function down(Link $link)
+    {
+        $order = (int) $link->sort;
+            $newOrder = $order + 1;
+
+            /** @var User $user */
+            $user = auth()->user();
+
+            $swapWith = $user->links()->where('sort', $newOrder)->first();
+
+            // faz a troca
+            $currentSort = $link->sort;
+            $link->sort = $swapWith->sort;
+            $swapWith->sort = $currentSort;
+
+            $link->save();
+            $swapWith->save();
+
+            return back();
     }
 }
